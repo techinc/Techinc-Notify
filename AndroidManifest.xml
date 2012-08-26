@@ -19,7 +19,7 @@
             </intent-filter>
         </receiver>
         <activity
-            android:name=".PreferenceSettings"
+            android:name="NotifyActivity"
             android:icon="@drawable/techinclogo"
             android:label="@string/app_name" >
             <intent-filter>
@@ -37,6 +37,7 @@
                 <action android:name="org.spoofer.hackerspace.StateEngine" />
             </intent-filter>
         </service>
+        <activity android:name="PreferenceSettings"></activity>
         
     </application>
 

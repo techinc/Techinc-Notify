@@ -25,7 +25,7 @@ public class PreferenceSettings extends Activity {
 		Log.v(LOG_TAG, "creating preferences activity");
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.settings);
 
 		if (null == preferences)
 			preferences = new Preferences(getApplicationContext());
