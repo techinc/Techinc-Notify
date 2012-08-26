@@ -37,7 +37,6 @@ public class PreferenceSettings extends Activity {
 
 		TextView openURL = (TextView)findViewById(R.id.open_url);
 		openURL.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				String newValue = ((TextView)v).getText().toString();
 				if (!preferences.getOpenURL().equals(newValue)) {
@@ -49,7 +48,6 @@ public class PreferenceSettings extends Activity {
 
 		CheckBox bootStart = (CheckBox)findViewById(R.id.boot_start);
 		bootStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				boolean newValue = ((CheckBox)v).isChecked();
 				if (!preferences.getStartOnBoot() == newValue) {
@@ -61,7 +59,6 @@ public class PreferenceSettings extends Activity {
 
 		CheckBox vibrate = (CheckBox)findViewById(R.id.vibrate);
 		vibrate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				boolean newValue = ((CheckBox)v).isChecked();
 				if (preferences.getVibrateNotify() != newValue) {
@@ -73,7 +70,6 @@ public class PreferenceSettings extends Activity {
 
 		TextView sound = (TextView)findViewById(R.id.notify_sound);
 		sound.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				String newValue = ((TextView)v).getText().toString();
 				if (!preferences.getNotifySound().equals(newValue)) {
@@ -85,7 +81,6 @@ public class PreferenceSettings extends Activity {
 
 		TextView pollDelay = (TextView)findViewById(R.id.update_freq);
 		pollDelay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				long newValue = Long.parseLong(((TextView)v).getText().toString());
 				if (preferences.getPollDelay() != newValue) {
@@ -97,7 +92,6 @@ public class PreferenceSettings extends Activity {
 
 		TextView pollURL = (TextView)findViewById(R.id.update_url);
 		pollURL.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				String newValue = ((TextView)v).getText().toString();
 				if (!preferences.getPollURL().equals(newValue)) {
@@ -113,7 +107,6 @@ public class PreferenceSettings extends Activity {
 
 		Button buttonStart = (Button)findViewById(R.id.start);
 		buttonStart.setOnClickListener(new Button.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				startService(new Intent(getApplicationContext(), StateEngine.class));
 			}
@@ -121,7 +114,6 @@ public class PreferenceSettings extends Activity {
 
 		Button buttonStop = (Button)findViewById(R.id.stop);
 		buttonStop.setOnClickListener(new Button.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				Intent stopIntent = new Intent(getApplicationContext(), StateEngine.class);
 				stopIntent.setAction(Intent.ACTION_SHUTDOWN);
@@ -134,7 +126,6 @@ public class PreferenceSettings extends Activity {
 
 		Button buttonApply = (Button)findViewById(R.id.apply);
 		buttonApply.setOnClickListener(new Button.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				preferences.commit();
 				loadSettings(preferences);
@@ -144,7 +135,6 @@ public class PreferenceSettings extends Activity {
 
 		Button buttonReset = (Button)findViewById(R.id.reset);
 		buttonReset.setOnClickListener(new Button.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 
 				preferences.reset();
@@ -154,7 +144,6 @@ public class PreferenceSettings extends Activity {
 		
 		Button buttonBrowse = (Button)findViewById(R.id.butn_browse_sound);
 		buttonBrowse.setOnClickListener(new Button.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				selectRingTone();
 			}

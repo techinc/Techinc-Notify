@@ -88,7 +88,6 @@ public class StateEngine extends Service {
 	 */
 	private Runnable checkState = new Runnable() {
 
-		@Override
 		public void run() {
 
 			Log.v(LOG_TAG, "starting worker thread to check state");
@@ -129,7 +128,6 @@ public class StateEngine extends Service {
 
 		private void postMessage(final String message) {
 			guiHandler.post(new Runnable() {
-				@Override
 				public void run() {
 					Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 				}
