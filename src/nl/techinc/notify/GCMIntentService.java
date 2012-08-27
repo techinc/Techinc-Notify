@@ -70,7 +70,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onUnregistered(Context context, String regId) {
 		try
 		{
-			String url = Uri.parse(GCM_URL).buildUpon().appendPath("register").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
+			String url = Uri.parse(GCM_URL).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
 			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
