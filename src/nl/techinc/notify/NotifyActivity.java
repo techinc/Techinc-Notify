@@ -2,9 +2,12 @@ package nl.techinc.notify;
 
 import java.io.IOException;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class NotifyActivity extends Activity {
+	private static final String SENDER_ID = "1093719656719";
 	boolean monitorEnabled = false;
 	
 	@Override
@@ -75,11 +79,20 @@ public class NotifyActivity extends Activity {
 		if(!monitorEnabled)
 		{
 			monitorEnabled = true;
+			GCMRegistrar.checkDevice(this);
+			GCMRegistrar.checkManifest(this);
+			final String regId = GCMRegistrar.getRegistrationId(this);
+			if (regId.equals("")) {
+				GCMRegistrar.register(this, SENDER_ID);
+			} else {
+				Log.v("GCM", "Already registered");
+			}
 			label.setText(R.string.monitoring_enabled);
 			button.setText(R.string.disable);
 			return;
 		}
 		monitorEnabled = false;
+		GCMRegistrar.unregister(this);
 		label.setText(R.string.monitoring_disabled);
 		button.setText(R.string.enable);
 	}

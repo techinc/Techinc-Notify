@@ -23,9 +23,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private String key;
 
 	@Override
-	protected void onError(Context arg0, String arg1) {
-		// TODO Auto-generated method stub
-
+	protected void onError(Context context, String errorId) {
+		Log.e("GCM", "Error: "+errorId);
 	}
 
 	@Override
@@ -49,6 +48,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context context, String regId) {
+		Log.v("GCM", regId);
 		try
 		{
 			String url = Uri.parse(GCM_URL).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
@@ -58,6 +58,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			String input = in.readLine();
 			in.close();
 			key = input;
+			Log.v("GCM", input);
 		}
 		catch(IOException e)
 		{
