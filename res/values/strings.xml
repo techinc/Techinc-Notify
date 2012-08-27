@@ -4,7 +4,10 @@
     <string name="app_name">Techinc</string>
     
     <string name="notify_open">The space is currently open</string>
-    <string name="notify_closed">The space is now closed</string>
+    <string name="notify_closed">The space is currently closed</string>
+    
+    <string name="ticker_open">Space opened</string>
+    <string name="ticker_closed">Space closed</string>
     
     <string name="pref_update_freq">Update Frequency (Seconds)</string>
     <string name="pref_update_url">Update URL</string>

@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package org.spoofer.techinc;
+package nl.techinc.notify;
 
 public final class R {
     public static final class attr {
@@ -48,33 +48,35 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int button_browse=0x7f04000d;
-        public static final int button_refresh=0x7f040017;
-        public static final int button_start_service=0x7f04000b;
-        public static final int button_stop_service=0x7f04000c;
-        public static final int closed=0x7f040015;
-        public static final int confirm_no=0x7f040010;
-        public static final int confirm_reset=0x7f04000e;
-        public static final int confirm_yes=0x7f04000f;
-        public static final int disable=0x7f04001a;
-        public static final int enable=0x7f04001b;
-        public static final int main_text=0x7f040012;
-        public static final int menu_settings=0x7f040011;
-        public static final int monitoring_disabled=0x7f040019;
-        public static final int monitoring_enabled=0x7f040018;
+        public static final int button_browse=0x7f04000f;
+        public static final int button_refresh=0x7f040019;
+        public static final int button_start_service=0x7f04000d;
+        public static final int button_stop_service=0x7f04000e;
+        public static final int closed=0x7f040017;
+        public static final int confirm_no=0x7f040012;
+        public static final int confirm_reset=0x7f040010;
+        public static final int confirm_yes=0x7f040011;
+        public static final int disable=0x7f04001c;
+        public static final int enable=0x7f04001d;
+        public static final int main_text=0x7f040014;
+        public static final int menu_settings=0x7f040013;
+        public static final int monitoring_disabled=0x7f04001b;
+        public static final int monitoring_enabled=0x7f04001a;
         public static final int notify_closed=0x7f040002;
         public static final int notify_open=0x7f040001;
-        public static final int open=0x7f040014;
-        public static final int pref_apply=0x7f040008;
-        public static final int pref_boot_start=0x7f04000a;
-        public static final int pref_notify_sound=0x7f040009;
-        public static final int pref_notify_vibrate=0x7f040005;
-        public static final int pref_open_url=0x7f040007;
-        public static final int pref_reset=0x7f040006;
-        public static final int pref_update_freq=0x7f040003;
-        public static final int pref_update_url=0x7f040004;
-        public static final int status=0x7f040013;
-        public static final int unknown=0x7f040016;
-        public static final int updating=0x7f04001c;
+        public static final int open=0x7f040016;
+        public static final int pref_apply=0x7f04000a;
+        public static final int pref_boot_start=0x7f04000c;
+        public static final int pref_notify_sound=0x7f04000b;
+        public static final int pref_notify_vibrate=0x7f040007;
+        public static final int pref_open_url=0x7f040009;
+        public static final int pref_reset=0x7f040008;
+        public static final int pref_update_freq=0x7f040005;
+        public static final int pref_update_url=0x7f040006;
+        public static final int status=0x7f040015;
+        public static final int ticker_closed=0x7f040004;
+        public static final int ticker_open=0x7f040003;
+        public static final int unknown=0x7f040018;
+        public static final int updating=0x7f04001e;
     }
 }

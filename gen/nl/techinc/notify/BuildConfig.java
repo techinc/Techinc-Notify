@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package org.spoofer.techinc;
+package nl.techinc.notify;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

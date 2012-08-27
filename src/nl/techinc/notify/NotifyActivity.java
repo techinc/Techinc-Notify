@@ -2,10 +2,6 @@ package nl.techinc.notify;
 
 import java.io.IOException;
 
-import nl.techinc.notify.state.StateEngine;
-
-import org.spoofer.techinc.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +21,23 @@ public class NotifyActivity extends Activity {
 		setContentView(R.layout.main);
 	}
 	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		try {
+			refresh();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void refresh(View view) throws IOException
+	{
+		refresh();
+	}
+	
+	public void refresh() throws IOException
 	{
 		final TextView statusLabel = (TextView) findViewById(R.id.status);
 		statusLabel.setText(R.string.updating);
@@ -63,14 +75,11 @@ public class NotifyActivity extends Activity {
 		if(!monitorEnabled)
 		{
 			monitorEnabled = true;
-			startService(new Intent(getApplicationContext(), StateEngine.class));
 			label.setText(R.string.monitoring_enabled);
 			button.setText(R.string.disable);
 			return;
 		}
 		monitorEnabled = false;
-		Intent stopIntent = new Intent(getApplicationContext(), StateEngine.class).setAction(Intent.ACTION_SHUTDOWN);
-		stopService(stopIntent);
 		label.setText(R.string.monitoring_disabled);
 		button.setText(R.string.enable);
 	}

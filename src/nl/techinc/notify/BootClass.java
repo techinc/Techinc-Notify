@@ -1,7 +1,5 @@
 package nl.techinc.notify;
 
-import nl.techinc.notify.state.StateEngine;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,9 +24,7 @@ public class BootClass extends BroadcastReceiver {
 		
 		Preferences prefs = new Preferences(context);
 		if (prefs.getStartOnBoot() ) {
-			// Fire up the State engine to poll the state of the website.
-			Intent startEngineIntent = new Intent(context, StateEngine.class);
-			context.startService(startEngineIntent);
+			// TODO: Enable GCM service.
 		}
 	}
 

@@ -1,9 +1,5 @@
 package nl.techinc.notify;
 
-import nl.techinc.notify.state.StateEngine;
-
-import org.spoofer.techinc.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -106,7 +102,7 @@ public class PreferenceSettings extends Activity {
 		// Set up the Button click listeners
 
 
-		Button buttonStart = (Button)findViewById(R.id.start);
+/*		Button buttonStart = (Button)findViewById(R.id.start);
 		buttonStart.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				startService(new Intent(getApplicationContext(), StateEngine.class));
@@ -124,7 +120,7 @@ public class PreferenceSettings extends Activity {
 				//startService(new Intent(getApplicationContext(), StateEngine.class));
 			}
 		});
-
+*/
 		Button buttonApply = (Button)findViewById(R.id.apply);
 		buttonApply.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
