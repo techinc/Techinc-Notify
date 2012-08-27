@@ -17,7 +17,6 @@ public class PreferenceSettings extends Activity {
 	private static final String LOG_TAG = PreferenceSettings.class.getSimpleName();
 
 	private Preferences preferences;
-	
 
 	/** Called when the activity is first created. */
 	@Override
