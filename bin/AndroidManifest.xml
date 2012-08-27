@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         
-        <receiver android:name="Bo.BootClasssc.notify.BootClass
+        <receiver android:name="BootClass">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -29,14 +29,15 @@
             </intent-filter>
         </activity>
         <service
-         .state.StateEngine.state.StateEnginenl.techinc.notify.state.StateEngine
+            android:name=".state.StateEngine"
             android:icon="@drawable/techinclogo"
             android:label="@string/app_name"
             >         
             <intent-filter>
                 <action android:name="org.spoofer.hackerspace.StateEngine" />
             </intent-filter>
-.PreferenceSettings.PreferenceSettings android:name="Prnl.techinc.notify.PreferenceSettingsandroid:icon="@drawable/techinclogo_mono"></activity>
+        </service>
+        <activity android:name="PreferenceSettings" android:icon="@drawable/techinclogo_mono"></activity>
         
     </application>
 

@@ -34,5 +34,5 @@
     <string name="monitoring_disabled">Monitoring disabled.</string>
     <string name="disable">Disable</string>
     <string name="enable">Enable</string>
-    <string name="updating">Updating...</string>
+    <string name="updating">Updating…</string>
 </resources>
