@@ -43,7 +43,7 @@
         android:layout_height="wrap_content" 
         android:layout_alignBaseline="@+id/toggle"
         android:textSize="20sp"
-        android:text="@string/monitoring_enabled" />
+        android:text="@string/monitoring_disabled" />
     
     <Button
         android:id="@+id/toggle"
@@ -51,5 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/refresh"
         android:layout_alignParentRight="true"
-        android:text="@string/disable" />
+        android:onClick="toggleMonitor"
+        android:text="@string/enable" />
 </RelativeLayout>

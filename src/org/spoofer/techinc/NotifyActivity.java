@@ -2,15 +2,20 @@ package org.spoofer.techinc;
 
 import java.io.IOException;
 
+import org.spoofer.techinc.state.StateEngine;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class NotifyActivity extends Activity {
+	boolean monitorEnabled = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -20,6 +25,8 @@ public class NotifyActivity extends Activity {
 	
 	public void refresh(View view) throws IOException
 	{
+		final TextView statusLabel = (TextView) findViewById(R.id.status);
+		statusLabel.setText(R.string.updating);
 		new Thread(new Runnable() {
 			public void run()
 			{
@@ -27,9 +34,14 @@ public class NotifyActivity extends Activity {
 				try {
 					state = SpaceState.updateState();
 				} catch (IOException e) {
-					throw new RuntimeException(e);
+					e.printStackTrace();
+					statusLabel.post(new Runnable(){
+						public void run() {
+							statusLabel.setText(R.string.unknown);
+						}
+					});
+					return;
 				}
-				final TextView statusLabel = (TextView) findViewById(R.id.status);
 				statusLabel.post(new Runnable(){
 					public void run() {
 						if(state)
@@ -40,6 +52,25 @@ public class NotifyActivity extends Activity {
 				});
 			}
 		}).start();
+	}
+	
+	public void toggleMonitor(View view)
+	{
+		TextView label = (TextView) findViewById(R.id.monitoring);
+		Button button = (Button) findViewById(R.id.toggle);
+		if(!monitorEnabled)
+		{
+			monitorEnabled = true;
+			startService(new Intent(getApplicationContext(), StateEngine.class));
+			label.setText(R.string.monitoring_enabled);
+			button.setText(R.string.disable);
+			return;
+		}
+		monitorEnabled = false;
+		Intent stopIntent = new Intent(getApplicationContext(), StateEngine.class).setAction(Intent.ACTION_SHUTDOWN);
+		stopService(stopIntent);
+		label.setText(R.string.monitoring_disabled);
+		button.setText(R.string.enable);
 	}
 	
 	@Override

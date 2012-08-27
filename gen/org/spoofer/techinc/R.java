@@ -75,5 +75,6 @@ public final class R {
         public static final int pref_update_url=0x7f040004;
         public static final int status=0x7f040013;
         public static final int unknown=0x7f040016;
+        public static final int updating=0x7f04001c;
     }
 }
