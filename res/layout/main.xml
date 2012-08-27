@@ -4,11 +4,51 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
     
+    <TextView
+        android:id="@+id/label_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/main_text" />
+    
+    <TextView
+    	android:id="@+id/status_label"
+    	android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/label_text"
+        android:textSize="25sp"
+        android:text="@string/status" />
+    
+    <TextView
+    	android:id="@+id/status"
+    	android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignBaseline="@+id/refresh"
+        android:textSize="20sp"
+        android:text="@string/unknown" />
+    
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_label"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_refresh" />
+    
+    <TextView
+    	android:id="@+id/monitoring"
+    	android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignBaseline="@+id/toggle"
+        android:textSize="20sp"
+        android:text="@string/monitoring_enabled" />
+    
     <Button
         android:id="@+id/toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:text="@string/button_start_service" />
+        android:layout_below="@+id/refresh"
+        android:layout_alignParentRight="true"
+        android:text="@string/disable" />
 </RelativeLayout>
