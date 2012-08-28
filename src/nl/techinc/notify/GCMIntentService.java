@@ -11,14 +11,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
-	private static final String GCM_URL = "http://nathan7.eu:3000";
+	private static final String GCM_URL = "http://techinc.notefaction.jit.su";
 	private static final int NOTE_ID = 1;
 	private String key;
 
@@ -29,7 +31,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
+		Log.v("GCM", "Received a message.");
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean state = !(intent.getStringExtra("state").equals("closed"));
+		if(!state && sharedPref.getBoolean("suppress", false))
+			return;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		int icon = R.drawable.techinclogo_white;
 		CharSequence tickerText = state ? getString(R.string.ticker_open) : getString(R.string.ticker_closed);
@@ -38,6 +44,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		CharSequence contentText = state ? getString(R.string.notify_open) : getString(R.string.notify_closed);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NotifyActivity.class), 0);
 		Notification notification = new Notification(icon, tickerText, when);
+		if(sharedPref.getBoolean("vibrate", false)) notification.defaults |= Notification.DEFAULT_VIBRATE;
+		String ringtone = sharedPref.getString("ringtone", "");
+		if(!ringtone.equals("")) notification.sound = Uri.parse(ringtone);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		notificationManager.notify(NOTE_ID, notification);
 	}
@@ -58,7 +67,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -66,6 +75,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onUnregistered(Context context, String regId) {
 		try
 		{
+			if(key == null)
+			{
+				Log.v("GCM", "No key, not unregistering.");
+				return;
+			}
 			String url = Uri.parse(GCM_URL).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
@@ -76,7 +90,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 

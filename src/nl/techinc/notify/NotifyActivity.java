@@ -6,7 +6,9 @@ import com.google.android.gcm.GCMRegistrar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,14 +17,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class NotifyActivity extends Activity {
-	private static final String SENDER_ID = "1093719656719";
+	private static final String SENDER_ID = "1093719656719"; // Also in BootClass
 	boolean monitorEnabled = false;
+	private SharedPreferences sharedPreferences;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		applyMonitor();
 	}
 	
 	@Override
@@ -74,11 +79,17 @@ public class NotifyActivity extends Activity {
 	
 	public void toggleMonitor(View view)
 	{
+		boolean oldState = sharedPreferences.getBoolean("monitor", true);
+		sharedPreferences.edit().putBoolean("monitor", !oldState).commit();
+		applyMonitor();
+	}
+	
+	public void applyMonitor()
+	{
 		TextView label = (TextView) findViewById(R.id.monitoring);
 		Button button = (Button) findViewById(R.id.toggle);
-		if(!monitorEnabled)
+		if(sharedPreferences.getBoolean("monitor", true))
 		{
-			monitorEnabled = true;
 			GCMRegistrar.checkDevice(this);
 			GCMRegistrar.checkManifest(this);
 			final String regId = GCMRegistrar.getRegistrationId(this);
@@ -91,7 +102,6 @@ public class NotifyActivity extends Activity {
 			button.setText(R.string.disable);
 			return;
 		}
-		monitorEnabled = false;
 		GCMRegistrar.unregister(this);
 		label.setText(R.string.monitoring_disabled);
 		button.setText(R.string.enable);
