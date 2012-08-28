@@ -17,74 +17,44 @@ public final class R {
         public static final int techinclogo_white=0x7f020003;
     }
     public static final class id {
-        public static final int apply=0x7f070014;
-        public static final int boot_start=0x7f070008;
-        public static final int butn_browse_sound=0x7f07000c;
-        public static final int label_open_url=0x7f070006;
-        public static final int label_pref_notify_sound=0x7f07000a;
-        public static final int label_pref_update_freq=0x7f07000d;
         public static final int label_text=0x7f070000;
-        public static final int label_update_url=0x7f07000f;
-        public static final int menu_settings=0x7f070015;
+        public static final int menu_settings=0x7f070006;
         public static final int monitoring=0x7f070004;
-        public static final int notify_sound=0x7f07000b;
-        public static final int open_url=0x7f070007;
         public static final int refresh=0x7f070003;
-        public static final int reset=0x7f070013;
-        public static final int start=0x7f070011;
         public static final int status=0x7f070002;
         public static final int status_label=0x7f070001;
-        public static final int stop=0x7f070012;
         public static final int toggle=0x7f070005;
-        public static final int update_freq=0x7f07000e;
-        public static final int update_url=0x7f070010;
-        public static final int vibrate=0x7f070009;
     }
     public static final class layout {
         public static final int main=0x7f030000;
-        public static final int settings=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int button_browse=0x7f05000f;
-        public static final int button_refresh=0x7f050018;
-        public static final int button_start_service=0x7f05000d;
-        public static final int button_stop_service=0x7f05000e;
-        public static final int closed=0x7f050016;
-        public static final int confirm_no=0x7f050012;
-        public static final int confirm_reset=0x7f050010;
-        public static final int confirm_yes=0x7f050011;
-        public static final int disable=0x7f05001b;
-        public static final int enable=0x7f05001c;
-        public static final int main_text=0x7f050013;
-        public static final int menu_settings=0x7f05001e;
-        public static final int monitoring_disabled=0x7f05001a;
-        public static final int monitoring_enabled=0x7f050019;
+        public static final int button_refresh=0x7f05000a;
+        public static final int closed=0x7f050008;
+        public static final int disable=0x7f05000d;
+        public static final int enable=0x7f05000e;
+        public static final int main_text=0x7f050005;
+        public static final int menu_settings=0x7f050010;
+        public static final int monitoring_disabled=0x7f05000c;
+        public static final int monitoring_enabled=0x7f05000b;
         public static final int notify_closed=0x7f050002;
         public static final int notify_open=0x7f050001;
-        public static final int open=0x7f050015;
-        public static final int pref_apply=0x7f05000a;
-        public static final int pref_boot_start=0x7f05000c;
-        public static final int pref_notify_sound=0x7f05000b;
-        public static final int pref_notify_vibrate=0x7f050007;
-        public static final int pref_open_url=0x7f050009;
-        public static final int pref_reset=0x7f050008;
-        public static final int pref_update_freq=0x7f050005;
-        public static final int pref_update_url=0x7f050006;
-        public static final int ringtone_label=0x7f050023;
-        public static final int ringtone_summary=0x7f050024;
-        public static final int status=0x7f050014;
-        public static final int suppress_label=0x7f05001f;
-        public static final int suppress_summary=0x7f050020;
+        public static final int open=0x7f050007;
+        public static final int ringtone_label=0x7f050015;
+        public static final int ringtone_summary=0x7f050016;
+        public static final int status=0x7f050006;
+        public static final int suppress_label=0x7f050011;
+        public static final int suppress_summary=0x7f050012;
         public static final int ticker_closed=0x7f050004;
         public static final int ticker_open=0x7f050003;
-        public static final int unknown=0x7f050017;
-        public static final int updating=0x7f05001d;
-        public static final int vibrate_label=0x7f050021;
-        public static final int vibrate_summary=0x7f050022;
+        public static final int unknown=0x7f050009;
+        public static final int updating=0x7f05000f;
+        public static final int vibrate_label=0x7f050013;
+        public static final int vibrate_summary=0x7f050014;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
