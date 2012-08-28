@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 /**
  * Boot Class is the Broadcast receiver that processes the boot up of the device.
@@ -20,13 +19,10 @@ import android.util.Log;
 public class BootClass extends BroadcastReceiver {
 	
 	private static final String SENDER_ID = "1093719656719";
-
-	private static final String LOG_TAG = BootClass.class.getSimpleName();
 	
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.d(LOG_TAG, "Device starting, checking if service should be started...");
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if(sharedPreferences.getBoolean("monitor", false))
 		{
@@ -36,7 +32,7 @@ public class BootClass extends BroadcastReceiver {
 			if (regId.equals("")) {
 				GCMRegistrar.register(context, SENDER_ID);
 			} else {
-				Log.v("GCM", "Already registered");
+				//Log.v("GCM", "Already registered");
 			}
 			return;
 		}

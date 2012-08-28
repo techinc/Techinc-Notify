@@ -31,7 +31,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.v("GCM", "Received a message.");
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean state = !(intent.getStringExtra("state").equals("closed"));
 		if(!state && sharedPref.getBoolean("suppress", false))
@@ -53,7 +52,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context context, String regId) {
-		Log.v("GCM", regId);
 		try
 		{
 			String url = Uri.parse(GCM_URL).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
@@ -63,7 +61,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 			String input = in.readLine();
 			in.close();
 			key = input;
-			Log.v("GCM", input);
 		}
 		catch(IOException e)
 		{
@@ -77,16 +74,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		{
 			if(key == null)
 			{
-				Log.v("GCM", "No key, not unregistering.");
 				return;
 			}
 			String url = Uri.parse(GCM_URL).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
-			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-			String input = in.readLine();
-			in.close();
-			Log.i("GCM", input);
 		}
 		catch(IOException e)
 		{
