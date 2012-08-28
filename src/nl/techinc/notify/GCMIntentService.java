@@ -32,7 +32,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context context, Intent intent) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean state = !(intent.getStringExtra("state").equals("closed"));
+		final String stateStr = intent.getStringExtra("state");
+		if(!stateStr.equals("closed") || !stateStr.equals("open"))
+			return;
+		boolean state = !(stateStr.equals("closed"));
 		if(!state && sharedPref.getBoolean("suppress", false))
 			return;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
