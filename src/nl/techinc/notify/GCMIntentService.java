@@ -29,21 +29,17 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		try {
-			boolean state = !(intent.getStringExtra("state").equals("closed"));
-			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			int icon = state ? R.drawable.techinclogo : R.drawable.techinclogo_mono;
-			CharSequence tickerText = state ? getString(R.string.ticker_open) : getString(R.string.ticker_closed);
-			long when = System.currentTimeMillis();
-			CharSequence contentTitle = getString(R.string.app_name);
-			CharSequence contentText = state ? getString(R.string.notify_open) : getString(R.string.notify_closed);
-			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NotifyActivity.class), 0);
-			Notification notification = new Notification(icon, tickerText, when);
-			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-			notificationManager.notify(NOTE_ID, notification);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		boolean state = !(intent.getStringExtra("state").equals("closed"));
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		int icon = state ? R.drawable.techinclogo : R.drawable.techinclogo_mono;
+		CharSequence tickerText = state ? getString(R.string.ticker_open) : getString(R.string.ticker_closed);
+		long when = System.currentTimeMillis();
+		CharSequence contentTitle = getString(R.string.app_name);
+		CharSequence contentText = state ? getString(R.string.notify_open) : getString(R.string.notify_closed);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NotifyActivity.class), 0);
+		Notification notification = new Notification(icon, tickerText, when);
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		notificationManager.notify(NOTE_ID, notification);
 	}
 
 	@Override
