@@ -9,20 +9,6 @@
     <string name="ticker_open">Space opened</string>
     <string name="ticker_closed">Space closed</string>
     
-    <string name="pref_update_freq">Update Frequency (Seconds)</string>
-    <string name="pref_update_url">Update URL</string>
-    <string name="pref_notify_vibrate">Vibrate when open</string>
-    <string name="pref_reset">Reset</string>
-    
-    <string name="pref_open_url">Browse to URL</string>
-    <string name="pref_apply">Apply</string><string name="pref_notify_sound">Notify sound</string>
-    <string name="pref_boot_start">Start at boot time</string><string name="button_start_service">Start</string>
-    <string name="button_stop_service">Stop</string>
-    <string name="button_browse">…</string>
-    <string name="confirm_reset">Are you sure you wish to reset ALL the settings back to default?</string>
-    <string name="confirm_yes">Yes sure, blow them away.</string>
-    <string name="confirm_no">Shit no!!</string>
-    
     <string name="main_text">
         This application monitors the current status of the Technologia Incognita hackerspace.\n
         It will automatically monitor the current status of the space and show a notification while it is enabled.
