@@ -30,7 +30,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context context, Intent intent) {
 		try {
-			boolean state = SpaceState.updateState();
+			boolean state = !(intent.getStringExtra("state").equals("closed"));
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			int icon = state ? R.drawable.techinclogo : R.drawable.techinclogo_mono;
 			CharSequence tickerText = state ? getString(R.string.ticker_open) : getString(R.string.ticker_closed);
