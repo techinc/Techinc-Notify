@@ -18,7 +18,7 @@ import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
-	private static final String GCM_URL = "http://techincnotify.appspot.com";
+	private static final String GCM_URL = "http://nathan7.eu:3000";
 	private static final int NOTE_ID = 1;
 	private String key;
 
@@ -31,7 +31,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onMessage(Context context, Intent intent) {
 		boolean state = !(intent.getStringExtra("state").equals("closed"));
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		int icon = state ? R.drawable.techinclogo : R.drawable.techinclogo_mono;
+		int icon = R.drawable.techinclogo_white;
 		CharSequence tickerText = state ? getString(R.string.ticker_open) : getString(R.string.ticker_closed);
 		long when = System.currentTimeMillis();
 		CharSequence contentTitle = getString(R.string.app_name);

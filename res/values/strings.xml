@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Techinc</string>
+    <string name="app_name">Technologia Incognita</string>
     
     <string name="notify_open">The space is currently open</string>
     <string name="notify_closed">The space is currently closed</string>
@@ -22,7 +22,6 @@
     <string name="confirm_reset">Are you sure you wish to reset ALL the settings back to default?</string>
     <string name="confirm_yes">Yes sure, blow them away.</string>
     <string name="confirm_no">Shit no!!</string>
-    <string name="menu_settings">Settings</string>
     
     <string name="main_text">
         This application monitors the current status of the Technologia Incognita hackerspace.\n
@@ -38,4 +37,9 @@
     <string name="disable">Disable</string>
     <string name="enable">Enable</string>
     <string name="updating">Updating…</string>
+    <string name="menu_settings">Settings</string>
+    
+    <string name="suppress_label">Suppress closed</string><string name="suppress_summary">Only notify when space opens</string>
+    <string name="vibrate_label">Vibrate</string><string name="vibrate_summary">Vibrate device on notification</string>
+    <string name="ringtone_label">Notification tone</string><string name="ringtone_summary">Select a sound to play with the notification</string>
 </resources>

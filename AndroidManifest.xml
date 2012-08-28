@@ -57,7 +57,7 @@
             >         
         </service>
         <service android:name=".GCMIntentService" />
-        <activity android:name="PreferenceSettings" android:icon="@drawable/techinclogo_mono"></activity>
+        <activity android:name="SettingsActivity" android:icon="@drawable/techinclogo_mono"></activity>
         
     </application>
 
