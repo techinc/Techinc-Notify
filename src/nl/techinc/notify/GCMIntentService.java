@@ -31,7 +31,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context context, Intent intent) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		final String stateStr = intent.getStringExtra("state");
+		String stateStr = intent.getStringExtra("state");
+		if(stateStr.startsWith("dbg"))
+		{
+			if(!sharedPref.getBoolean("debug", false))
+				return;
+			stateStr = stateStr.substring(3);
+		}
 		if(!stateStr.equals("closed") || !stateStr.equals("open"))
 			return;
 		boolean state = !(stateStr.equals("closed"));

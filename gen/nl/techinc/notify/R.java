@@ -40,6 +40,8 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int button_refresh=0x7f05000a;
         public static final int closed=0x7f050008;
+        public static final int debug_label=0x7f050018;
+        public static final int debug_summary=0x7f050019;
         public static final int disable=0x7f05000d;
         public static final int enable=0x7f05000e;
         public static final int main_text=0x7f050005;
@@ -58,9 +60,9 @@ public final class R {
         public static final int ticker_open=0x7f050003;
         public static final int unknown=0x7f050009;
         public static final int updating=0x7f05000f;
-        public static final int url_desc=0x7f05001a;
-        public static final int url_label=0x7f050018;
-        public static final int url_summary=0x7f050019;
+        public static final int url_desc=0x7f05001c;
+        public static final int url_label=0x7f05001a;
+        public static final int url_summary=0x7f05001b;
         public static final int vibrate_label=0x7f050014;
         public static final int vibrate_summary=0x7f050015;
         public static final int warning=0x7f050011;
