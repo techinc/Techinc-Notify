@@ -1,0 +1,8 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:updatePeriodMillis="0"
+    android:previewImage="@drawable/open"
+    android:initialLayout="@layout/notify_appwidget"
+    android:resizeMode="none">
+</appwidget-provider>

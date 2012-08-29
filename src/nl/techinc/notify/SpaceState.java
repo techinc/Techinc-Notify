@@ -38,5 +38,6 @@ public class SpaceState {
 		intent.setAction(ACTION_STATE);
 		intent.putExtra(PARAM_STATE, state);
 		context.sendBroadcast(intent);
+		NotifyAppWidgetProvider.update(context, state);
 	}
 }
