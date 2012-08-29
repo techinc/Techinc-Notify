@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <CheckBoxPreference android:title="@string/suppress_label" android:summary="@string/suppress_summary" android:key="suppress"/><CheckBoxPreference android:title="@string/vibrate_label" android:summary="@string/vibrate_summary" android:key="vibrate"/>
     <RingtonePreference android:ringtoneType="notification" android:title="@string/ringtone_label" android:showDefault="true" android:summary="@string/ringtone_summary" android:showSilent="true" android:key="ringtone"/>
+    <EditTextPreference android:summary="@string/url_summary" android:title="@string/url_label" android:defaultValue="http://techinc.notefaction.jit.su" android:key="url" android:dialogMessage="@string/url_desc" android:dialogTitle="@string/warning"/>
     
     
 

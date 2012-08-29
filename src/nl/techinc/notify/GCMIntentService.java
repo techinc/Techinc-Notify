@@ -20,7 +20,6 @@ import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
-	private static final String GCM_URL = "http://techinc.notefaction.jit.su";
 	private static final int NOTE_ID = 1;
 	private String key;
 
@@ -36,6 +35,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(!stateStr.equals("closed") || !stateStr.equals("open"))
 			return;
 		boolean state = !(stateStr.equals("closed"));
+		SpaceState.broadcastState(context, state);
 		if(!state && sharedPref.getBoolean("suppress", false))
 			return;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -57,7 +57,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onRegistered(Context context, String regId) {
 		try
 		{
-			String url = Uri.parse(GCM_URL).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
 			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
@@ -79,7 +80,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			{
 				return;
 			}
-			String url = Uri.parse(GCM_URL).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
 		}

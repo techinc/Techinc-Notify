@@ -5,7 +5,10 @@ import java.io.IOException;
 import com.google.android.gcm.GCMRegistrar;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +23,18 @@ public class NotifyActivity extends Activity {
 	boolean monitorEnabled = false;
 	private SharedPreferences sharedPreferences;
 	
+	private StateReceiver receiver;
+	
+	public class StateReceiver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final TextView statusLabel = (TextView) findViewById(R.id.status);
+			boolean state = intent.getBooleanExtra("state", false);
+			statusLabel.setText(state ? R.string.open : R.string.closed);
+		}
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -27,6 +42,10 @@ public class NotifyActivity extends Activity {
 		setContentView(R.layout.main);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		applyMonitor();
+		
+		IntentFilter filter = new IntentFilter(SpaceState.ACTION_STATE);
+		receiver = new StateReceiver();
+		registerReceiver(receiver, filter);
 	}
 	
 	@Override
@@ -49,12 +68,12 @@ public class NotifyActivity extends Activity {
 	{
 		final TextView statusLabel = (TextView) findViewById(R.id.status);
 		statusLabel.setText(R.string.updating);
+		final Context context = this;
 		new Thread(new Runnable() {
 			public void run()
 			{
-				final boolean state;
 				try {
-					state = SpaceState.updateState();
+					SpaceState.updateState(context);
 				} catch (IOException e) {
 					e.printStackTrace();
 					statusLabel.post(new Runnable(){
@@ -64,14 +83,6 @@ public class NotifyActivity extends Activity {
 					});
 					return;
 				}
-				statusLabel.post(new Runnable(){
-					public void run() {
-						if(state)
-							statusLabel.setText(R.string.open);
-						else
-							statusLabel.setText(R.string.closed);
-					}
-				});
 			}
 		}).start();
 	}

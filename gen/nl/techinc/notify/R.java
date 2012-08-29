@@ -44,17 +44,21 @@ public final class R {
         public static final int notify_closed=0x7f050002;
         public static final int notify_open=0x7f050001;
         public static final int open=0x7f050007;
-        public static final int ringtone_label=0x7f050015;
-        public static final int ringtone_summary=0x7f050016;
+        public static final int ringtone_label=0x7f050016;
+        public static final int ringtone_summary=0x7f050017;
         public static final int status=0x7f050006;
-        public static final int suppress_label=0x7f050011;
-        public static final int suppress_summary=0x7f050012;
+        public static final int suppress_label=0x7f050012;
+        public static final int suppress_summary=0x7f050013;
         public static final int ticker_closed=0x7f050004;
         public static final int ticker_open=0x7f050003;
         public static final int unknown=0x7f050009;
         public static final int updating=0x7f05000f;
-        public static final int vibrate_label=0x7f050013;
-        public static final int vibrate_summary=0x7f050014;
+        public static final int url_desc=0x7f05001a;
+        public static final int url_label=0x7f050018;
+        public static final int url_summary=0x7f050019;
+        public static final int vibrate_label=0x7f050014;
+        public static final int vibrate_summary=0x7f050015;
+        public static final int warning=0x7f050011;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
