@@ -8,5 +8,5 @@ The application can be found on [Google Play](https://github.com/techinc/Techinc
 
 To-do:
 
-- Make widget clickable
+- Retry if failed instead of soft-fail
 - Look into deprecating GCM

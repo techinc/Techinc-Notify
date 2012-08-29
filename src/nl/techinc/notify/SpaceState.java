@@ -34,10 +34,18 @@ public class SpaceState {
 	
 	public static void broadcastState(Context context, boolean state)
 	{
+		SpaceState.state = state;
+		broadcastState(context);
+	}
+	
+	public static void broadcastState(Context context)
+	{
 		Intent intent = new Intent();
 		intent.setAction(ACTION_STATE);
 		intent.putExtra(PARAM_STATE, state);
 		context.sendBroadcast(intent);
-		NotifyAppWidgetProvider.update(context, state);
+		intent = new Intent(context, NotifyAppWidgetProvider.class);
+		intent.putExtra(PARAM_STATE, state);
+		context.sendBroadcast(intent);
 	}
 }

@@ -36,9 +36,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		{
 			if(!sharedPref.getBoolean("debug", false))
 				return;
-			stateStr = stateStr.substring(3);
+			stateStr = new String(stateStr.substring(3));
 		}
-		if(!stateStr.equals("closed") || !stateStr.equals("open"))
+		if(!stateStr.equals("closed") && !stateStr.equals("open"))
 			return;
 		boolean state = !(stateStr.equals("closed"));
 		SpaceState.broadcastState(context, state);
