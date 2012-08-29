@@ -39,7 +39,9 @@
                 <category android:name="nl.techinc.notify" />
             </intent-filter>
         </receiver>
-        <receiver android:name="NotifyAppWidgetProvider" android:exported="false">
+        <receiver android:name="NotifyAppWidgetProvider"
+            android:exported="false"
+            android:icon="@drawable/techinclogo">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

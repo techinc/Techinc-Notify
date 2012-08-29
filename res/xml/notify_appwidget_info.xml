@@ -2,7 +2,8 @@
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="0"
-    android:previewImage="@drawable/open"
+    android:previewImage="@drawable/closed"
+    android:icon="@drawable/techinclogo"
     android:initialLayout="@layout/notify_appwidget"
     android:resizeMode="none">
 </appwidget-provider>
