@@ -3,6 +3,7 @@ package nl.techinc.notify;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -61,40 +63,79 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context context, String regId) {
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		final String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
+		sharedPref.edit().remove("backoff").commit();
+		register(url);
+	}
+	
+	private void register(final String url)
+	{
 		try
 		{
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-			String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
-			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+			HttpURLConnection httpConnection = (HttpURLConnection) connect;
+			BufferedReader in = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
 			String input = in.readLine();
 			in.close();
 			key = input;
+			int response = httpConnection.getResponseCode();
+			if(!(response == 200))
+				throw new IOException("Response: "+Integer.toString(response));
 		}
 		catch(IOException e)
 		{
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
+			Runnable runnable = new Runnable()
+			{
+				public void run() {
+					register(url);
+				}
+			};
+			new Handler().postDelayed(runnable, delayMillis);
+			sharedPref.edit().putInt("backoff", delayMillis*2);
 		}
 	}
 
 	@Override
 	protected void onUnregistered(Context context, String regId) {
+		if(key == null)
+		{
+			return;
+		}
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
+		sharedPref.edit().remove("backoff").commit();
+		unregister(url);
+	}
+
+	private void unregister(final String url)
+	{
 		try
 		{
-			if(key == null)
-			{
-				return;
-			}
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-			String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 			URLConnection connect = new URL(url).openConnection();
 			connect.connect();
+			HttpURLConnection httpConnection = (HttpURLConnection) connect;
+			int response = httpConnection.getResponseCode();
+			if(!(response == 200))
+				throw new IOException("Response: "+Integer.toString(response));
 		}
 		catch(IOException e)
 		{
+			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
+			Runnable runnable = new Runnable()
+			{
+				public void run() {
+					unregister(url);
+				}
+			};
+			new Handler().postDelayed(runnable, delayMillis);
+			sharedPref.edit().putInt("backoff", delayMillis*2);
 		}
 	}
-
 }
