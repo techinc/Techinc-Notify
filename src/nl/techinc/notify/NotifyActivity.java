@@ -29,9 +29,22 @@ public class NotifyActivity extends Activity {
 	{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			final TextView statusLabel = (TextView) findViewById(R.id.status);
-			boolean state = intent.getBooleanExtra("state", false);
-			statusLabel.setText(state ? R.string.open : R.string.closed);
+			String action = intent.getAction();
+			if(action.equals(SpaceState.ACTION_STATE))
+			{
+				final TextView statusLabel = (TextView) findViewById(R.id.status);
+				boolean state = intent.getBooleanExtra("state", false);
+				statusLabel.setText(state ? R.string.open : R.string.closed);
+			}
+			else if(action.equals(GCMIntentService.ACTION_REGISTER))
+			{
+				boolean enabled = intent.getBooleanExtra("enabled", true);
+				TextView label = (TextView) findViewById(R.id.monitoring);
+				Button button = (Button) findViewById(R.id.toggle);
+				button.setEnabled(true);
+				label.setText(enabled ? R.string.monitoring_enabled : R.string.monitoring_disabled);
+				button.setText(enabled ? R.string.disable : R.string.enable);
+			}
 		}
 	}
 	
@@ -41,11 +54,11 @@ public class NotifyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		applyMonitor();
+		enableMonitor();
 		
-		IntentFilter filter = new IntentFilter(SpaceState.ACTION_STATE);
 		receiver = new StateReceiver();
-		registerReceiver(receiver, filter);
+		registerReceiver(receiver, new IntentFilter(SpaceState.ACTION_STATE));
+		registerReceiver(receiver, new IntentFilter(GCMIntentService.ACTION_REGISTER));
 	}
 	
 	@Override
@@ -94,27 +107,52 @@ public class NotifyActivity extends Activity {
 		applyMonitor();
 	}
 	
-	public void applyMonitor()
+	public void enableMonitor()
 	{
 		TextView label = (TextView) findViewById(R.id.monitoring);
 		Button button = (Button) findViewById(R.id.toggle);
-		if(sharedPreferences.getBoolean("monitor", true))
-		{
-			GCMRegistrar.checkDevice(this);
-			GCMRegistrar.checkManifest(this);
-			final String regId = GCMRegistrar.getRegistrationId(this);
-			if (regId.equals("")) {
-				GCMRegistrar.register(this, SENDER_ID);
-			} else {
-				//Log.v("GCM", "Already registered");
-			}
+		button.setEnabled(false);
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		if (regId.equals("")) {
+			GCMRegistrar.register(this, SENDER_ID);
+			label.setText(R.string.updating);
+		} else {
+			button.setEnabled(true);
 			label.setText(R.string.monitoring_enabled);
 			button.setText(R.string.disable);
+		}
+	}
+	
+	public void disableMonitor()
+	{
+		TextView label = (TextView) findViewById(R.id.monitoring);
+		Button button = (Button) findViewById(R.id.toggle);
+		button.setEnabled(false);
+		if(!GCMRegistrar.isRegistered(this))
+		{
+			button.setEnabled(true);
+			label.setText(R.string.monitoring_disabled);
+			button.setText(R.string.enable);
 			return;
 		}
 		GCMRegistrar.unregister(this);
-		label.setText(R.string.monitoring_disabled);
-		button.setText(R.string.enable);
+		label.setText(R.string.updating);
+	}
+	
+	public void applyMonitor()
+	{
+		Button button = (Button) findViewById(R.id.toggle);
+		button.setEnabled(false);
+		if(sharedPreferences.getBoolean("monitor", true))
+		{
+			enableMonitor();
+		}
+		else
+		{
+			disableMonitor();
+		}
 	}
 	
 	@Override

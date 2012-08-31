@@ -19,11 +19,19 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.google.android.gcm.GCMRegistrar;
 
 public class GCMIntentService extends GCMBaseIntentService {
+	
+	public static final String ACTION_REGISTER = "nl.techinc.notify.intent.action.register";
 
 	private static final int NOTE_ID = 1;
 	private String key;
+	
+	public boolean getRegistered(Context context)
+	{
+		return GCMRegistrar.isRegistered(context);
+	}
 
 	@Override
 	protected void onError(Context context, String errorId) {
@@ -66,10 +74,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		final String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
 		sharedPref.edit().remove("backoff").commit();
-		register(url);
+		register(context, url);
 	}
 	
-	private void register(final String url)
+	private void register(final Context context, final String url)
 	{
 		try
 		{
@@ -83,16 +91,22 @@ public class GCMIntentService extends GCMBaseIntentService {
 			int response = httpConnection.getResponseCode();
 			if(!(response == 200))
 				throw new IOException("Response: "+Integer.toString(response));
+			Intent intent = new Intent();
+			intent.setAction(ACTION_REGISTER);
+			intent.putExtra("enabled", true);
+			context.sendBroadcast(intent);
 		}
 		catch(IOException e)
 		{
 			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
+			if(delayMillis > 16000)
+				return;
 			Runnable runnable = new Runnable()
 			{
 				public void run() {
-					register(url);
+					register(context, url);
 				}
 			};
 			new Handler().postDelayed(runnable, delayMillis);
@@ -109,10 +123,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
 		sharedPref.edit().remove("backoff").commit();
-		unregister(url);
+		unregister(context, url);
 	}
 
-	private void unregister(final String url)
+	private void unregister(final Context context, final String url)
 	{
 		try
 		{
@@ -122,16 +136,22 @@ public class GCMIntentService extends GCMBaseIntentService {
 			int response = httpConnection.getResponseCode();
 			if(!(response == 200))
 				throw new IOException("Response: "+Integer.toString(response));
+			Intent intent = new Intent();
+			intent.setAction(ACTION_REGISTER);
+			intent.putExtra("enabled", false);
+			context.sendBroadcast(intent);
 		}
 		catch(IOException e)
 		{
 			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
+			if(delayMillis > 16000)
+				return;
 			Runnable runnable = new Runnable()
 			{
 				public void run() {
-					unregister(url);
+					unregister(context, url);
 				}
 			};
 			new Handler().postDelayed(runnable, delayMillis);

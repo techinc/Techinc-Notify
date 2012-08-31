@@ -8,14 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Boot Class is the Broadcast receiver that processes the boot up of the device.
- * It checks if the Service is configured to start on boot up of the device and start the service
- * as required.
- * 
- * @author rob gilham
- *
- */
 public class BootClass extends BroadcastReceiver {
 	
 	private static final String SENDER_ID = "1093719656719";
