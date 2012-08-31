@@ -102,7 +102,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
 			if(delayMillis > 16000)
-				return;
+			{
+				Intent intent = new Intent();
+				intent.setAction(ACTION_REGISTER);
+				intent.putExtra("enabled", false);
+				context.sendBroadcast(intent);
+			}
 			Runnable runnable = new Runnable()
 			{
 				public void run() {
@@ -128,6 +133,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	private void unregister(final Context context, final String url)
 	{
+		Intent intent = new Intent();
+		intent.setAction(ACTION_REGISTER);
+		intent.putExtra("enabled", false);
+		context.sendBroadcast(intent);
 		try
 		{
 			URLConnection connect = new URL(url).openConnection();
@@ -136,10 +145,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 			int response = httpConnection.getResponseCode();
 			if(!(response == 200))
 				throw new IOException("Response: "+Integer.toString(response));
-			Intent intent = new Intent();
-			intent.setAction(ACTION_REGISTER);
-			intent.putExtra("enabled", false);
-			context.sendBroadcast(intent);
 		}
 		catch(IOException e)
 		{
