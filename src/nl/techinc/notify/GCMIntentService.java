@@ -24,6 +24,7 @@ import com.google.android.gcm.GCMRegistrar;
 public class GCMIntentService extends GCMBaseIntentService {
 	
 	public static final String ACTION_REGISTER = "nl.techinc.notify.intent.action.register";
+	public static final String SENDER_ID = "1093719656719";
 
 	private static final int NOTE_ID = 1;
 	private String key;
@@ -62,6 +63,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		CharSequence contentText = state ? getString(R.string.notify_open) : getString(R.string.notify_closed);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, NotifyActivity.class), 0);
 		Notification notification = new Notification(icon, tickerText, when);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		if(sharedPref.getBoolean("vibrate", false)) notification.defaults |= Notification.DEFAULT_VIBRATE;
 		String ringtone = sharedPref.getString("ringtone", "");
 		if(!ringtone.equals("")) notification.sound = Uri.parse(ringtone);

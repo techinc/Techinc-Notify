@@ -15,7 +15,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class NotifyActivity extends Activity {
@@ -40,10 +39,7 @@ public class NotifyActivity extends Activity {
 			{
 				boolean enabled = intent.getBooleanExtra("enabled", true);
 				TextView label = (TextView) findViewById(R.id.monitoring);
-				Button button = (Button) findViewById(R.id.toggle);
-				button.setEnabled(true);
 				label.setText(enabled ? R.string.monitoring_enabled : R.string.monitoring_disabled);
-				button.setText(enabled ? R.string.disable : R.string.enable);
 			}
 		}
 	}
@@ -110,8 +106,6 @@ public class NotifyActivity extends Activity {
 	public void enableMonitor()
 	{
 		TextView label = (TextView) findViewById(R.id.monitoring);
-		Button button = (Button) findViewById(R.id.toggle);
-		button.setEnabled(false);
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
 		final String regId = GCMRegistrar.getRegistrationId(this);
@@ -119,22 +113,16 @@ public class NotifyActivity extends Activity {
 			GCMRegistrar.register(this, SENDER_ID);
 			label.setText(R.string.updating);
 		} else {
-			button.setEnabled(true);
 			label.setText(R.string.monitoring_enabled);
-			button.setText(R.string.disable);
 		}
 	}
 	
 	public void disableMonitor()
 	{
 		TextView label = (TextView) findViewById(R.id.monitoring);
-		Button button = (Button) findViewById(R.id.toggle);
-		button.setEnabled(false);
 		if(!GCMRegistrar.isRegistered(this))
 		{
-			button.setEnabled(true);
 			label.setText(R.string.monitoring_disabled);
-			button.setText(R.string.enable);
 			return;
 		}
 		GCMRegistrar.unregister(this);
@@ -143,8 +131,6 @@ public class NotifyActivity extends Activity {
 	
 	public void applyMonitor()
 	{
-		Button button = (Button) findViewById(R.id.toggle);
-		button.setEnabled(false);
 		if(sharedPreferences.getBoolean("monitor", true))
 		{
 			enableMonitor();

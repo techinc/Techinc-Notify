@@ -29,6 +29,7 @@
     <string name="suppress_label">Suppress closed</string><string name="suppress_summary">Only notify when space opens</string>
     <string name="vibrate_label">Vibrate</string><string name="vibrate_summary">Vibrate device on notification</string>
     <string name="ringtone_label">Notification tone</string><string name="ringtone_summary">Select a sound to play with the notification</string>
+    <string name="monitor_label">Monitor for changes</string><string name="monitor_summary">Register with the server to receive push updates</string>
     <string name="debug_label">Debug mode</string><string name="debug_summary">Enable debug mode.</string>
     <string name="url_label">Server URL</string><string name="url_summary">Change the server that the device registers with</string>
     <string name="url_desc">For debugging purposes only.\nDo not touch unless you know what you are doing.</string>
