@@ -34,7 +34,7 @@ public class SettingsActivity extends PreferenceActivity implements
 					sharedPreferences.edit().putBoolean("monitor", enabled).commit();
 				Preference monitorPref = findPreference("monitor");
 				monitorPref.setSummary(R.string.monitor_summary);
-				monitorPref.setEnabled(true);
+				// monitorPref.setEnabled(true);
 			}
 		}
 	}
@@ -56,9 +56,13 @@ public class SettingsActivity extends PreferenceActivity implements
 		findPreference("monitor").setEnabled(false);
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		if(application.isUpdating())
+		{
+			findPreference("monitor").setSummary(R.string.updating);
 			return;
+		}
 		sharedPreferences.edit().putBoolean("monitor", GCMRegistrar.isRegistered(this)).commit();
-		findPreference("monitor").setEnabled(true);
+		// findPreference("monitor").setEnabled(true);
+		// TODO: Figure out how to fix this first
 	}
 	
 	@Override
@@ -66,6 +70,13 @@ public class SettingsActivity extends PreferenceActivity implements
 	{
 	    super.onPause();
 	    getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+	}
+	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		unregisterReceiver(receiver);
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
