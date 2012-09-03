@@ -16,22 +16,31 @@ public class SpaceState {
 	public static final String ACTION_STATE = "nl.techinc.notify.intent.action.STATE";
 	public static final String PARAM_STATE = "state";
 	
-	public static void updateState(Context context) throws IOException
+	public static boolean updateState(Context context)
 	{
 		NotifyApp application = (NotifyApp) context.getApplicationContext();
 		boolean state = application.getSpaceState();
-		try {
-			URLConnection connect = new URL(POLL_URL).openConnection();
-			connect.connect();
-			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-			String input = in.readLine();
-			in.close();
-			state = !(STATE_CLOSED.equalsIgnoreCase(input.trim()));
-			application.setSpaceState(state);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		long curTime = System.currentTimeMillis() / 1000L;
+		if(curTime - application.getLastUpdated() > 60)
+		{
+			application.setLastUpdated(curTime);
+			try {
+				URLConnection connect = new URL(POLL_URL).openConnection();
+				connect.connect();
+				BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+				String input = in.readLine();
+				in.close();
+				state = !(STATE_CLOSED.equalsIgnoreCase(input.trim()));
+				application.setSpaceState(state);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+				//TODO: Retry
+			}
 		}
 		broadcastState(context, state);
+		return state;
 	}
 	
 	public static void broadcastState(Context context, boolean state)

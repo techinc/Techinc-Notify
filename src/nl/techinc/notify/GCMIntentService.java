@@ -51,8 +51,22 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		if(!stateStr.equals("closed") && !stateStr.equals("open"))
 			return;
-		boolean state = !(stateStr.equals("closed"));
-		SpaceState.broadcastState(context, state);
+		boolean state;
+		long msgTime = Long.parseLong(intent.getStringExtra("time"));
+		long curTime = System.currentTimeMillis() / 1000L;
+		if(curTime - msgTime > 3600)
+		{
+			state = SpaceState.updateState(context);
+		}
+		else
+		{
+			NotifyApp application = (NotifyApp) context.getApplicationContext();
+			if(msgTime < application.getLastUpdated())	// If this message was sent earlier than when we last checked
+				return; 								// Ignore it
+			application.setLastUpdated(msgTime);
+			state = !(stateStr.equals("closed"));
+			SpaceState.broadcastState(context, state);
+		}
 		if(!state && sharedPref.getBoolean("suppress", false))
 			return;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

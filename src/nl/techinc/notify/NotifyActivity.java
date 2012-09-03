@@ -81,17 +81,7 @@ public class NotifyActivity extends Activity {
 		new Thread(new Runnable() {
 			public void run()
 			{
-				try {
-					SpaceState.updateState(context);
-				} catch (IOException e) {
-					e.printStackTrace();
-					statusLabel.post(new Runnable(){
-						public void run() {
-							statusLabel.setText(R.string.unknown);
-						}
-					});
-					return;
-				}
+				SpaceState.updateState(context);
 			}
 		}).start();
 	}
