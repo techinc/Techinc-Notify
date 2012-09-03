@@ -52,8 +52,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(!stateStr.equals("closed") && !stateStr.equals("open"))
 			return;
 		boolean state;
-		long msgTime = Long.parseLong(intent.getStringExtra("time"));
+		long msgTime;
 		long curTime = System.currentTimeMillis() / 1000L;
+		String timeStr = intent.getStringExtra("time").trim().replace(".", "");
+		msgTime = Long.parseLong(timeStr) / 1000L;
 		if(curTime - msgTime > 3600)
 		{
 			state = SpaceState.updateState(context);

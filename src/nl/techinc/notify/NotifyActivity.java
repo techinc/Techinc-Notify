@@ -68,6 +68,13 @@ public class NotifyActivity extends Activity {
 		}
 	}
 	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		unregisterReceiver(receiver);
+	}
+	
 	public void refresh(View view) throws IOException
 	{
 		refresh();
