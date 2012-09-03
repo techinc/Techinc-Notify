@@ -20,6 +20,8 @@ public class SettingsActivity extends PreferenceActivity implements
 	
 	private StateReceiver receiver;
 	
+	private NotifyApp application;
+	
 	public class StateReceiver extends BroadcastReceiver
 	{
 		@Override
@@ -38,12 +40,13 @@ public class SettingsActivity extends PreferenceActivity implements
 	}
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {     
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		addPreferencesFromResource(R.xml.preferences);
 		receiver = new StateReceiver();
 		registerReceiver(receiver, new IntentFilter(GCMIntentService.ACTION_REGISTER));
+		application = (NotifyApp) getApplicationContext();
 	}
 	
 	@Override
@@ -51,8 +54,10 @@ public class SettingsActivity extends PreferenceActivity implements
 	{
 		super.onResume();
 		findPreference("monitor").setEnabled(false);
-		sharedPreferences.edit().putBoolean("monitor", GCMRegistrar.isRegistered(this)).commit();
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		if(application.isUpdating())
+			return;
+		sharedPreferences.edit().putBoolean("monitor", GCMRegistrar.isRegistered(this)).commit();
 		findPreference("monitor").setEnabled(true);
 	}
 	
@@ -76,14 +81,20 @@ public class SettingsActivity extends PreferenceActivity implements
 				GCMRegistrar.checkManifest(this);
 				final String regId = GCMRegistrar.getRegistrationId(this);
 				if (regId.equals(""))
+				{
+					application.setUpdating(true);
 					GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
+				}
 				else
 					monitorPref.setEnabled(true);
 			}
 			else
 			{
 				if(GCMRegistrar.isRegistered(this))
+				{
+					application.setUpdating(true);
 					GCMRegistrar.unregister(this);
+				}
 				else
 					monitorPref.setEnabled(true);
 			}

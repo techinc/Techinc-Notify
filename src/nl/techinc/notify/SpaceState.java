@@ -15,10 +15,11 @@ public class SpaceState {
 	private static final String STATE_CLOSED = "closed";
 	public static final String ACTION_STATE = "nl.techinc.notify.intent.action.STATE";
 	public static final String PARAM_STATE = "state";
-	public static boolean state;
 	
 	public static void updateState(Context context) throws IOException
 	{
+		NotifyApp application = (NotifyApp) context.getApplicationContext();
+		boolean state = application.getSpaceState();
 		try {
 			URLConnection connect = new URL(POLL_URL).openConnection();
 			connect.connect();
@@ -26,6 +27,7 @@ public class SpaceState {
 			String input = in.readLine();
 			in.close();
 			state = !(STATE_CLOSED.equalsIgnoreCase(input.trim()));
+			application.setSpaceState(state);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -34,12 +36,15 @@ public class SpaceState {
 	
 	public static void broadcastState(Context context, boolean state)
 	{
-		SpaceState.state = state;
+		NotifyApp application = (NotifyApp) context.getApplicationContext();
+		application.setSpaceState(state);
 		broadcastState(context);
 	}
 	
 	public static void broadcastState(Context context)
 	{
+		NotifyApp application = (NotifyApp) context.getApplicationContext();
+		boolean state = application.getSpaceState();
 		Intent intent = new Intent();
 		intent.setAction(ACTION_STATE);
 		intent.putExtra(PARAM_STATE, state);

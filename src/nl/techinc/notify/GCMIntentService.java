@@ -73,13 +73,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context context, String regId) {
+		NotifyApp application = (NotifyApp) getApplicationContext();
+		application.setUpdating(false);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		final String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("register").appendQueryParameter("id", regId).build().toString();
 		sharedPref.edit().remove("backoff").commit();
-		register(context, url);
+		register(context, url, 1000);
 	}
 	
-	private void register(final Context context, final String url)
+	private void register(final Context context, final String url, final int delayMillis)
 	{
 		try
 		{
@@ -100,8 +102,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		catch(IOException e)
 		{
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
 			if(delayMillis > 16000)
 			{
@@ -113,11 +113,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			Runnable runnable = new Runnable()
 			{
 				public void run() {
-					register(context, url);
+					register(context, url, delayMillis*2);
 				}
 			};
 			new Handler().postDelayed(runnable, delayMillis);
-			sharedPref.edit().putInt("backoff", delayMillis*2);
 		}
 	}
 
@@ -129,12 +128,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		String url = Uri.parse(sharedPref.getString("url", "http://techinc.notefaction.jit.su")).buildUpon().appendPath("unregister").appendQueryParameter("id", regId).appendQueryParameter("key", key).build().toString();
-		sharedPref.edit().remove("backoff").commit();
-		unregister(context, url);
+		unregister(context, url, 1000);
 	}
 
-	private void unregister(final Context context, final String url)
+	private void unregister(final Context context, final String url, final int delayMillis)
 	{
+		NotifyApp application = (NotifyApp) getApplicationContext();
+		application.setUpdating(false);
 		Intent intent = new Intent();
 		intent.setAction(ACTION_REGISTER);
 		intent.putExtra("enabled", false);
@@ -150,19 +150,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		catch(IOException e)
 		{
-			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-			int delayMillis = sharedPref.getInt("backoff", 1000);
 			e.printStackTrace();
 			if(delayMillis > 16000)
 				return;
 			Runnable runnable = new Runnable()
 			{
 				public void run() {
-					unregister(context, url);
+					unregister(context, url, delayMillis*2);
 				}
 			};
 			new Handler().postDelayed(runnable, delayMillis);
-			sharedPref.edit().putInt("backoff", delayMillis*2);
 		}
 	}
 }
