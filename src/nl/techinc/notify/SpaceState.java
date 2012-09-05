@@ -32,6 +32,7 @@ public class SpaceState {
 				in.close();
 				state = !(STATE_CLOSED.equalsIgnoreCase(input.trim()));
 				application.setSpaceState(state);
+				broadcastState(context, state);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -39,7 +40,6 @@ public class SpaceState {
 				//TODO: Retry
 			}
 		}
-		broadcastState(context, state);
 		return state;
 	}
 	
