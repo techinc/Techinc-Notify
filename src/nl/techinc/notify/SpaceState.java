@@ -43,11 +43,13 @@ public class SpaceState {
 		return state;
 	}
 	
-	public static void broadcastState(Context context, boolean state)
+	public static boolean broadcastState(Context context, boolean state)
 	{
 		NotifyApp application = (NotifyApp) context.getApplicationContext();
+		boolean changed = application.getSpaceState() != state;
 		application.setSpaceState(state);
 		broadcastState(context);
+		return changed;
 	}
 	
 	public static void broadcastState(Context context)

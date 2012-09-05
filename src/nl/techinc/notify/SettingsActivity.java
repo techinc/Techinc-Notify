@@ -76,7 +76,8 @@ public class SettingsActivity extends PreferenceActivity implements
 	protected void onStop()
 	{
 		super.onStop();
-		unregisterReceiver(receiver);
+		if(receiver != null)
+			unregisterReceiver(receiver);
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

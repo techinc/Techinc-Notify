@@ -56,6 +56,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		long curTime = System.currentTimeMillis() / 1000L;
 		String timeStr = intent.getStringExtra("time").trim().replace(".", "");
 		msgTime = Long.parseLong(timeStr) / 1000L;
+		boolean changed = true;
 		if(curTime - msgTime > 3600)
 		{
 			state = SpaceState.updateState(context);
@@ -67,9 +68,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 				return; 								// Ignore it
 			application.setLastUpdated(msgTime);
 			state = !(stateStr.equals("closed"));
-			SpaceState.broadcastState(context, state);
+			changed = SpaceState.broadcastState(context, state);
 		}
 		if(!state && sharedPref.getBoolean("suppress", false))
+			return;
+		if(!changed)
 			return;
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		int icon = R.drawable.techinclogo_white;

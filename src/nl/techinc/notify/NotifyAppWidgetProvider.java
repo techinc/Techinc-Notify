@@ -15,8 +15,7 @@ public class NotifyAppWidgetProvider extends AppWidgetProvider {
 		NotifyApp application = (NotifyApp) context.getApplicationContext();
 		update(context, application.getSpaceState());
 		RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.notify_appwidget);
-		Intent intent = new Intent(context, NotifyActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, NotifyActivity.class), 0);
 		views.setOnClickPendingIntent(R.id.stateWidget, pendingIntent);
 		for(int appWidgetId : appWidgetIds)
 		{

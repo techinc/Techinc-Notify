@@ -1,7 +1,5 @@
 package nl.techinc.notify;
 
-import java.io.IOException;
-
 import com.google.android.gcm.GCMRegistrar;
 
 import android.app.Activity;
@@ -51,36 +49,33 @@ public class NotifyActivity extends Activity {
 		setContentView(R.layout.main);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		enableMonitor();
-		
-		receiver = new StateReceiver();
-		registerReceiver(receiver, new IntentFilter(SpaceState.ACTION_STATE));
-		registerReceiver(receiver, new IntentFilter(GCMIntentService.ACTION_REGISTER));
 	}
 	
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		try {
-			refresh();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		receiver = new StateReceiver();
+		registerReceiver(receiver, new IntentFilter(SpaceState.ACTION_STATE));
+		registerReceiver(receiver, new IntentFilter(GCMIntentService.ACTION_REGISTER));
+		refresh();
 	}
 	
 	@Override
-	protected void onStop()
+	protected void onPause()
 	{
 		super.onStop();
-		unregisterReceiver(receiver);
+		if(receiver != null)
+			unregisterReceiver(receiver);
+		receiver = null;
 	}
 	
-	public void refresh(View view) throws IOException
+	public void refresh(View view)
 	{
 		refresh();
 	}
 	
-	public void refresh() throws IOException
+	public void refresh()
 	{
 		final TextView statusLabel = (TextView) findViewById(R.id.status);
 		statusLabel.setText(R.string.updating);
