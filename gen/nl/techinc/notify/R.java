@@ -13,18 +13,20 @@ public final class R {
     public static final class drawable {
         public static final int closed=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int open=0x7f020002;
-        public static final int techinclogo=0x7f020003;
-        public static final int techinclogo_mono=0x7f020004;
-        public static final int techinclogo_white=0x7f020005;
+        public static final int ic_menu_refresh=0x7f020002;
+        public static final int ic_menu_settings=0x7f020003;
+        public static final int open=0x7f020004;
+        public static final int techinclogo=0x7f020005;
+        public static final int techinclogo_mono=0x7f020006;
+        public static final int techinclogo_white=0x7f020007;
     }
     public static final class id {
         public static final int label_text=0x7f070000;
+        public static final int menu_refresh=0x7f070006;
         public static final int menu_settings=0x7f070007;
-        public static final int monitoring=0x7f070004;
-        public static final int refresh=0x7f070003;
-        public static final int stateImage=0x7f070006;
-        public static final int stateWidget=0x7f070005;
+        public static final int monitoring=0x7f070003;
+        public static final int stateImage=0x7f070005;
+        public static final int stateWidget=0x7f070004;
         public static final int status=0x7f070002;
         public static final int status_label=0x7f070001;
     }
@@ -39,34 +41,38 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int button_refresh=0x7f05000a;
         public static final int closed=0x7f050008;
-        public static final int debug_label=0x7f05001a;
-        public static final int debug_summary=0x7f05001b;
-        public static final int disable=0x7f05000d;
-        public static final int enable=0x7f05000e;
+        public static final int debug_label=0x7f05001b;
+        public static final int debug_summary=0x7f05001c;
+        public static final int dialog_message=0x7f050022;
+        public static final int disable=0x7f05000e;
+        public static final int enable=0x7f05000f;
         public static final int main_text=0x7f050005;
-        public static final int menu_settings=0x7f050010;
-        public static final int monitor_label=0x7f050018;
-        public static final int monitor_summary=0x7f050019;
+        public static final int menu_settings=0x7f050011;
+        public static final int monitor_label=0x7f050019;
+        public static final int monitor_summary=0x7f05001a;
         public static final int monitoring_disabled=0x7f05000c;
         public static final int monitoring_enabled=0x7f05000b;
+        public static final int monitoring_unsupported=0x7f05000d;
+        public static final int no=0x7f050021;
         public static final int notify_closed=0x7f050002;
         public static final int notify_open=0x7f050001;
         public static final int open=0x7f050007;
-        public static final int ringtone_label=0x7f050016;
-        public static final int ringtone_summary=0x7f050017;
+        public static final int ringtone_label=0x7f050017;
+        public static final int ringtone_summary=0x7f050018;
         public static final int status=0x7f050006;
-        public static final int suppress_label=0x7f050012;
-        public static final int suppress_summary=0x7f050013;
+        public static final int suppress_label=0x7f050013;
+        public static final int suppress_summary=0x7f050014;
         public static final int ticker_closed=0x7f050004;
         public static final int ticker_open=0x7f050003;
         public static final int unknown=0x7f050009;
-        public static final int updating=0x7f05000f;
-        public static final int url_desc=0x7f05001e;
-        public static final int url_label=0x7f05001c;
-        public static final int url_summary=0x7f05001d;
-        public static final int vibrate_label=0x7f050014;
-        public static final int vibrate_summary=0x7f050015;
-        public static final int warning=0x7f050011;
+        public static final int updating=0x7f050010;
+        public static final int url_desc=0x7f05001f;
+        public static final int url_label=0x7f05001d;
+        public static final int url_summary=0x7f05001e;
+        public static final int vibrate_label=0x7f050015;
+        public static final int vibrate_summary=0x7f050016;
+        public static final int warning=0x7f050012;
+        public static final int yes=0x7f050020;
     }
     public static final class xml {
         public static final int notify_appwidget_info=0x7f040000;

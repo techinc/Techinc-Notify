@@ -105,8 +105,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		try
 		{
 			URLConnection connect = new URL(url).openConnection();
-			connect.connect();
 			HttpURLConnection httpConnection = (HttpURLConnection) connect;
+			httpConnection.addRequestProperty("accept-version", "1.0.x");
+			connect.connect();
 			BufferedReader in = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
 			String input = in.readLine();
 			in.close();
@@ -161,8 +162,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		try
 		{
 			URLConnection connect = new URL(url).openConnection();
-			connect.connect();
 			HttpURLConnection httpConnection = (HttpURLConnection) connect;
+			httpConnection.addRequestProperty("accept-version", "1.0.x");
+			connect.connect();
 			int response = httpConnection.getResponseCode();
 			if(!(response == 200))
 				throw new IOException("Response: "+Integer.toString(response));

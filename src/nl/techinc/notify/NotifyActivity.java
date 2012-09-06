@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 public class NotifyActivity extends Activity {
@@ -30,14 +29,12 @@ public class NotifyActivity extends Activity {
 			if(action.equals(SpaceState.ACTION_STATE))
 			{
 				final TextView statusLabel = (TextView) findViewById(R.id.status);
+				if(intent.getBooleanExtra("error", false))
+				{
+					statusLabel.setText(R.string.unknown);
+				}
 				boolean state = intent.getBooleanExtra("state", false);
 				statusLabel.setText(state ? R.string.open : R.string.closed);
-			}
-			else if(action.equals(GCMIntentService.ACTION_REGISTER))
-			{
-				boolean enabled = intent.getBooleanExtra("enabled", true);
-				TextView label = (TextView) findViewById(R.id.monitoring);
-				label.setText(enabled ? R.string.monitoring_enabled : R.string.monitoring_disabled);
 			}
 		}
 	}
@@ -48,7 +45,7 @@ public class NotifyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		enableMonitor();
+		setMonitor();
 	}
 	
 	@Override
@@ -57,7 +54,6 @@ public class NotifyActivity extends Activity {
 		super.onResume();
 		receiver = new StateReceiver();
 		registerReceiver(receiver, new IntentFilter(SpaceState.ACTION_STATE));
-		registerReceiver(receiver, new IntentFilter(GCMIntentService.ACTION_REGISTER));
 		refresh();
 	}
 	
@@ -68,11 +64,6 @@ public class NotifyActivity extends Activity {
 		if(receiver != null)
 			unregisterReceiver(receiver);
 		receiver = null;
-	}
-	
-	public void refresh(View view)
-	{
-		refresh();
 	}
 	
 	public void refresh()
@@ -88,48 +79,27 @@ public class NotifyActivity extends Activity {
 		}).start();
 	}
 	
-	public void toggleMonitor(View view)
+	public void setMonitor()
 	{
-		boolean oldState = sharedPreferences.getBoolean("monitor", true);
-		sharedPreferences.edit().putBoolean("monitor", !oldState).commit();
-		applyMonitor();
-	}
-	
-	public void enableMonitor()
-	{
+		if(!sharedPreferences.getBoolean("gcm_enabled", true))
+			return;
 		TextView label = (TextView) findViewById(R.id.monitoring);
-		GCMRegistrar.checkDevice(this);
-		GCMRegistrar.checkManifest(this);
+		try
+		{
+			GCMRegistrar.checkDevice(this);
+			sharedPreferences.edit().putBoolean("gcm_supported", true).commit();
+		}
+		catch (UnsupportedOperationException e)
+		{
+			sharedPreferences.edit().putBoolean("gcm_supported", false).putBoolean("gcm_enabled", false).commit();
+			label.setText(R.string.monitoring_unsupported);
+		}
 		final String regId = GCMRegistrar.getRegistrationId(this);
 		if (regId.equals("")) {
 			GCMRegistrar.register(this, SENDER_ID);
 			label.setText(R.string.updating);
 		} else {
 			label.setText(R.string.monitoring_enabled);
-		}
-	}
-	
-	public void disableMonitor()
-	{
-		TextView label = (TextView) findViewById(R.id.monitoring);
-		if(!GCMRegistrar.isRegistered(this))
-		{
-			label.setText(R.string.monitoring_disabled);
-			return;
-		}
-		GCMRegistrar.unregister(this);
-		label.setText(R.string.updating);
-	}
-	
-	public void applyMonitor()
-	{
-		if(sharedPreferences.getBoolean("monitor", true))
-		{
-			enableMonitor();
-		}
-		else
-		{
-			disableMonitor();
 		}
 	}
 	
@@ -143,6 +113,9 @@ public class NotifyActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.menu_refresh:
+			refresh();
+			return true;
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;

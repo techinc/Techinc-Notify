@@ -15,6 +15,7 @@ public class SpaceState {
 	private static final String STATE_CLOSED = "closed";
 	public static final String ACTION_STATE = "nl.techinc.notify.intent.action.STATE";
 	public static final String PARAM_STATE = "state";
+	public static final String PARAM_ERROR = "error";
 	
 	public static boolean updateState(Context context)
 	{
@@ -38,8 +39,14 @@ public class SpaceState {
 			} catch (IOException e) {
 				e.printStackTrace();
 				//TODO: Retry
+				Intent intent = new Intent();
+				intent.setAction(ACTION_STATE);
+				intent.putExtra(PARAM_ERROR, true);
+				context.sendBroadcast(intent);
 			}
 		}
+		else
+			broadcastState(context, state);
 		return state;
 	}
 	

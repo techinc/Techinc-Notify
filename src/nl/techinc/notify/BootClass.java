@@ -16,10 +16,8 @@ public class BootClass extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if(sharedPreferences.getBoolean("monitor", false))
+		if(sharedPreferences.getBoolean("gcm_enabled", false))
 		{
-			GCMRegistrar.checkDevice(context);
-			GCMRegistrar.checkManifest(context);
 			final String regId = GCMRegistrar.getRegistrationId(context);
 			if (regId.equals("")) {
 				GCMRegistrar.register(context, SENDER_ID);
