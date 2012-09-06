@@ -81,8 +81,14 @@ public class NotifyActivity extends Activity {
 	
 	public void setMonitor()
 	{
-		if(!sharedPreferences.getBoolean("gcm_enabled", true))
+		if(!sharedPreferences.getBoolean("gcm_supported", true))
 			return;
+		if(!sharedPreferences.getBoolean("gcm_enabled", true))
+		{
+			if(GCMRegistrar.isRegistered(this))
+				GCMRegistrar.unregister(this);
+			return;
+		}
 		TextView label = (TextView) findViewById(R.id.monitoring);
 		try
 		{
@@ -97,10 +103,8 @@ public class NotifyActivity extends Activity {
 		final String regId = GCMRegistrar.getRegistrationId(this);
 		if (regId.equals("")) {
 			GCMRegistrar.register(this, SENDER_ID);
-			label.setText(R.string.updating);
-		} else {
-			label.setText(R.string.monitoring_enabled);
 		}
+		label.setText(R.string.monitoring_enabled);
 	}
 	
 	@Override
