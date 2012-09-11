@@ -16,6 +16,8 @@ public class BootClass extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if(!sharedPreferences.getBoolean("boot", true))
+			return;
 		if(sharedPreferences.getBoolean("gcm_enabled", false))
 		{
 			final String regId = GCMRegistrar.getRegistrationId(context);
@@ -26,7 +28,8 @@ public class BootClass extends BroadcastReceiver {
 			}
 			return;
 		}
-		GCMRegistrar.unregister(context);
+		if(GCMRegistrar.isRegistered(context))
+			GCMRegistrar.unregister(context);
 	}
 
 }

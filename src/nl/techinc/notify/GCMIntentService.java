@@ -52,10 +52,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(!stateStr.equals("closed") && !stateStr.equals("open"))
 			return;
 		boolean state;
-		long msgTime;
-		long curTime = System.currentTimeMillis() / 1000L;
-		String timeStr = intent.getStringExtra("time").trim().replace(".", "");
-		msgTime = Long.parseLong(timeStr) / 1000L;
+		double msgTime;
+		double curTime = System.currentTimeMillis() / 1000D;
+		msgTime = Double.parseDouble(intent.getStringExtra("time").trim()) / 1000D;
 		boolean changed = true;
 		if(curTime - msgTime > 3600)
 		{
@@ -141,6 +140,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	@Override
+	
 	protected void onUnregistered(Context context, String regId) {
 		if(key == null)
 		{

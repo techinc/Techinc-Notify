@@ -21,7 +21,7 @@ public class SpaceState {
 	{
 		NotifyApp application = (NotifyApp) context.getApplicationContext();
 		boolean state = application.getSpaceState();
-		long curTime = System.currentTimeMillis() / 1000L;
+		double curTime = System.currentTimeMillis() / 1000D;
 		if(curTime - application.getLastUpdated() > 60)
 		{
 			application.setLastUpdated(curTime);

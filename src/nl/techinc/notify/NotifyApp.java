@@ -5,7 +5,7 @@ import android.app.Application;
 public class NotifyApp extends Application {
 	private boolean spaceState;
 	private boolean updating;
-	private long lastUpdated;
+	private double lastUpdated;
 
 	public boolean getSpaceState() {
 		return spaceState;
@@ -23,11 +23,11 @@ public class NotifyApp extends Application {
 		this.updating = updating;
 	}
 
-	public long getLastUpdated() {
+	public double getLastUpdated() {
 		return lastUpdated;
 	}
 
-	public void setLastUpdated(long lastUpdated) {
-		this.lastUpdated = lastUpdated;
+	public void setLastUpdated(double msgTime) {
+		this.lastUpdated = msgTime;
 	}
 }

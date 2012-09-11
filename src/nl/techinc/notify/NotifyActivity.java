@@ -77,6 +77,7 @@ public class NotifyActivity extends Activity {
 				SpaceState.updateState(context);
 			}
 		}).start();
+		setMonitor();
 	}
 	
 	public void setMonitor()
@@ -123,6 +124,10 @@ public class NotifyActivity extends Activity {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
+		case R.id.menu_quit:
+			if(GCMRegistrar.isRegistered(this))
+				GCMRegistrar.unregister(this);
+			finish();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
