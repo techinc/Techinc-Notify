@@ -9,6 +9,7 @@ import java.net.URLConnection;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 
 public class SpaceState {
 	private static final String POLL_URL = "http://techinc.nl/space/spacestate";
@@ -19,18 +20,23 @@ public class SpaceState {
 	
 	public static boolean updateState(Context context)
 	{
+		return updateState(context, 1000);
+	}
+	
+	public static boolean updateState(final Context context, final int delayMillis)
+	{
 		NotifyApp application = (NotifyApp) context.getApplicationContext();
 		boolean state = application.getSpaceState();
 		double curTime = System.currentTimeMillis() / 1000D;
 		if(curTime - application.getLastUpdated() > 60)
 		{
-			application.setLastUpdated(curTime);
 			try {
 				URLConnection connect = new URL(POLL_URL).openConnection();
 				connect.connect();
 				BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
 				String input = in.readLine();
 				in.close();
+				application.setLastUpdated(curTime);
 				state = !(STATE_CLOSED.equalsIgnoreCase(input.trim()));
 				application.setSpaceState(state);
 				broadcastState(context, state);
@@ -38,11 +44,20 @@ public class SpaceState {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-				//TODO: Retry
-				Intent intent = new Intent();
-				intent.setAction(ACTION_STATE);
-				intent.putExtra(PARAM_ERROR, true);
-				context.sendBroadcast(intent);
+				if(delayMillis > 16000)
+				{
+					Intent intent = new Intent();
+					intent.setAction(ACTION_STATE);
+					intent.putExtra(PARAM_ERROR, true);
+					context.sendBroadcast(intent);
+				}
+				Runnable runnable = new Runnable()
+				{
+					public void run() {
+						updateState(context, delayMillis*2);
+					}
+				};
+				new Handler().postDelayed(runnable, delayMillis);
 			}
 		}
 		else

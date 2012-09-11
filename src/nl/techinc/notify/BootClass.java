@@ -16,20 +16,26 @@ public class BootClass extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if(!sharedPreferences.getBoolean("boot", true))
-			return;
-		if(sharedPreferences.getBoolean("gcm_enabled", false))
+		if(intent.getAction() == Intent.ACTION_BOOT_COMPLETED)
 		{
-			final String regId = GCMRegistrar.getRegistrationId(context);
-			if (regId.equals("")) {
-				GCMRegistrar.register(context, SENDER_ID);
-			} else {
-				//Log.v("GCM", "Already registered");
+			if(!sharedPreferences.getBoolean("boot", true))
+				return;
+			if(sharedPreferences.getBoolean("gcm_enabled", false))
+			{
+				final String regId = GCMRegistrar.getRegistrationId(context);
+				if (regId.equals("")) {
+					GCMRegistrar.register(context, SENDER_ID);
+				} else {
+					//Log.v("GCM", "Already registered");
+				}
 			}
-			return;
+			else
+			{
+				if(GCMRegistrar.isRegistered(context))
+					GCMRegistrar.unregister(context);
+			}
 		}
-		if(GCMRegistrar.isRegistered(context))
-			GCMRegistrar.unregister(context);
+		SpaceState.updateState(context);
 	}
 
 }
