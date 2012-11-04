@@ -118,6 +118,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			intent.setAction(ACTION_REGISTER);
 			intent.putExtra("enabled", true);
 			context.sendBroadcast(intent);
+			GCMRegistrar.setRegisteredOnServer(context, true);
 		}
 		catch(IOException e)
 		{
@@ -128,6 +129,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				intent.setAction(ACTION_REGISTER);
 				intent.putExtra("enabled", false);
 				context.sendBroadcast(intent);
+				GCMRegistrar.setRegisteredOnServer(context, false);
 			}
 			Runnable runnable = new Runnable()
 			{
@@ -167,7 +169,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			connect.connect();
 			int response = httpConnection.getResponseCode();
 			if(!(response == 200))
-				throw new IOException("Response: "+Integer.toString(response));
+				throw new IOException("Response: "+Integer.toString(response));			
 		}
 		catch(IOException e)
 		{
